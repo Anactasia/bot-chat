@@ -137,7 +137,12 @@ def weather(req, res):
 def main_button(req, res):
     for entity in req['request']['nlu']["tokens"]:
         if entity == 'погода':
+            res['response']['text'] = \
+                'переход'
             return weather(req, res)
+        else:
+            res['response']['text'] = \
+                'все плохо'
 
 
 if __name__ == '__main__':

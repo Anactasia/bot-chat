@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 # создаем словарь, в котором ключ — название города,
 # а значение — массив, где перечислены id картинок,
 # которые мы записали в прошлом пункте.
-
+option = ['погода']
 cities = {
     'москва': ['1540737/daa6e420d33102bf6947',
                '213044/7df73ae4cc715175059e'],
@@ -74,9 +74,9 @@ def handle_dialog(res, req):
             # получаем варианты buttons из ключей нашего словаря cities
             res['response']['buttons'] = [
                 {
-                    'title': city.title(),
+                    'title': i,
                     'hide': True
-                } for city in cities
+                } for i in option
             ]
     # если мы знакомы с пользователем и он нам что-то написал,
     # то это говорит о том, что он уже говорит о городе,

@@ -144,6 +144,8 @@ def main_button(req, res):
         # если тип YANDEX.GEO то пытаемся получить город(city),
         # если нет, то возвращаем None
         if entity == 'погода':
+            res['response']['text'] = \
+                'укажите город'
             weather(req, res)
 
 

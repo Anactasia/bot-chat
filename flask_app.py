@@ -125,9 +125,7 @@ def get_first_name(req):
             return entity['value'].get('first_name', None)
 
 
-def weather(req, res):
-    res['response']['text'] = \
-        'Привет. Я шарю в погоде. Укажи только город!'
+def weather(res, req):
     city = get_city(req)
     if city is not None:
         res['response']['text'] = \

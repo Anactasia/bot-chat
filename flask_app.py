@@ -86,14 +86,7 @@ def handle_dialog(res, req):
         if button in option:
             res['response']['text'] = \
                 'Привет. Я шарю в погоде. Укажи только город!'
-            city = get_city(req)
-            if city is not None:
-                res['response']['text'] = \
-                    'Да я знаю такой'
-                # get_weather(city)
-            else:
-                res['response']['text'] = \
-                    'Что-то не то'
+            weather(req, res)
 
         # ищем город в сообщение от пользователя
         # city = get_city(req)

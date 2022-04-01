@@ -1,8 +1,8 @@
 from flask import Flask, request
 import logging
 import json
-import random
 import os
+import weather1
 
 app = Flask(__name__)
 
@@ -71,10 +71,13 @@ def handle_dialog(res, req):
                     'hide': True
                 } for i in option
             ]
-    # если мы знакомы с пользователем и он нам что-то написал,
-    # то это говорит о том, что он уже говорит о городе,
-    # что хочет увидеть.
-    # else:
+
+    else:
+        main_button(req, res)
+        # если мы знакомы с пользователем и он нам что-то написал,
+        # то это говорит о том, что он уже говорит о городе,
+        # что хочет увидеть.
+        # else:
         # ищем город в сообщение от пользователя
         city = get_city(req)
         # если этот город среди известных нам,
@@ -111,6 +114,37 @@ def get_first_name(req):
             # то возвращаем ее значение.
             # Во всех остальных случаях возвращаем None.
             return entity['value'].get('first_name', None)
+
+
+def weather(req, res):
+    # ищем город в сообщение от пользователя
+    city = get_city(req)
+    if city is not None:
+        res['response']['text'] = \
+            city
+        res['response']['text'] = \
+            weather1.get_weather(city)
+
+    # if city in option:
+    #
+    #     res['response']['card'] = {}
+    #     res['response']['card']['type'] = 'BigImage'
+    #     res['response']['card']['title'] = 'Этот город я знаю.'
+    #     res['response']['card']['image_id'] = random.choice(cities[city])
+    #     res['response']['text'] = 'Я угадал!'
+    # # если не нашел, то отвечает пользователю
+    # # 'Первый раз слышу об этом городе.'
+    else:
+        res['response']['text'] = \
+            'Первый раз слышу об этом городе. Попробуй еще разок!'
+
+
+def main_button(req, res):
+    for entity in req['request']['nlu']["tokens"]:
+        # если тип YANDEX.GEO то пытаемся получить город(city),
+        # если нет, то возвращаем None
+        if entity == 'погода':
+            weather(req, res)
 
 
 if __name__ == '__main__':

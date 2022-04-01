@@ -73,8 +73,8 @@ def handle_dialog(res, req):
                 } for i in option
             ]
 
-    else:
-        main_button(req, res)
+    # else:
+    #     main_button(req, res)
         # если мы знакомы с пользователем и он нам что-то написал,
         # то это говорит о том, что он уже говорит о городе,
         # что хочет увидеть.

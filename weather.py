@@ -15,7 +15,6 @@ def get_weather(query):
         data = response.json()
         print(data)
 
-        print("conditions:", data['list'][0]['weather'][0]['description'])
-        print("temp:", data['list'][0]['main']['temp'])
-        print("conditions:", data['list'][0]['weather'][0]['icon'])
+        return [data['list'][0]['weather'][0]['description'],
+                data['list'][0]['main']['temp'], data['list'][0]['weather'][0]['icon']]
 

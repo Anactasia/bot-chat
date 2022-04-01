@@ -102,7 +102,9 @@ def weather(req, res):
     # ищем город в сообщение от пользователя
     city = get_city(req)
     if city is not None:
-        get_weather(city)
+        rez = get_weather(city)
+        res['response']['text'] = \
+            rez
 
     # if city in option:
     #

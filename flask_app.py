@@ -85,7 +85,7 @@ def handle_dialog(res, req):
         button = main_button(req, res)
         if button in option:
             res['response']['text'] = \
-                'Привет. Я шарю в погоде. Укажи только город!'
+                'Привет. Я шарю. Укажи только город!'
         else:
             res['response']['text'] = \
                 'Привет. Я не шарю'

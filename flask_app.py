@@ -82,6 +82,7 @@ def handle_dialog(res, req):
     # то это говорит о том, что он уже говорит о городе,
     # что хочет увидеть.
     else:
+        main_button(req, res)
         # ищем город в сообщение от пользователя
         city = get_city(req)
         # если этот город среди известных нам,
@@ -118,6 +119,25 @@ def get_first_name(req):
             # то возвращаем ее значение.
             # Во всех остальных случаях возвращаем None.
             return entity['value'].get('first_name', None)
+
+
+def weather(req, res):
+    res['response']['text'] = \
+        'Привет. Я шарю в погоде. Укажи только город!'
+    city = get_city(req)
+    if city is not None:
+        res['response']['text'] = \
+            'Да я знаю такой'
+        # get_weather(city)
+    else:
+        res['response']['text'] = \
+            'Первый раз слышу об этом городе. Попробуй еще разок!'
+
+
+def main_button(req, res):
+    for entity in req['request']['nlu']["tokens"]:
+        if entity == 'погода':
+            return weather(req, res)
 
 
 if __name__ == '__main__':

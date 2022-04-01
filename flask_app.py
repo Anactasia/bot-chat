@@ -126,14 +126,18 @@ def get_first_name(req):
 
 
 def weather(res, req):
-    city = get_city(req)
-    if city is not None:
-        res['response']['text'] = \
-            'Да я знаю такой'
-        # get_weather(city)
-    else:
-        res['response']['text'] = \
-            'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
+    for entity in req['request']['nlu']["tokens"]:
+        if entity == 'погода':
+            res['response']['text'] = \
+                'Привет. Я шарю в погоде. Укажи только город!'
+            city = get_city(req)
+            if city is not None:
+                res['response']['text'] = \
+                    'Да я знаю такой'
+                # get_weather(city)
+            else:
+                res['response']['text'] = \
+                    'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
 
 
 def main_button(req, res):

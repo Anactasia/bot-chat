@@ -138,7 +138,7 @@ def main_button(req, res):
         if entity == 'погода':
             res['response']['text'] = \
                 'переход'
-            return weather(req, res)
+            weather(req, res)
         else:
             res['response']['text'] = \
                 'все плохо'

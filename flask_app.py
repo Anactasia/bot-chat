@@ -123,8 +123,7 @@ def weather(req, res):
     if city is not None:
         res['response']['text'] = \
             city
-        res['response']['text'] = \
-            weather1.get_weather(city)
+        weather1.get_weather(city)
 
     # if city in option:
     #
@@ -145,7 +144,7 @@ def main_button(req, res):
         # если тип YANDEX.GEO то пытаемся получить город(city),
         # если нет, то возвращаем None
         if entity == 'погода':
-            weather(req, res)
+            return weather(req, res)
 
 
 if __name__ == '__main__':

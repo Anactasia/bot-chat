@@ -86,6 +86,8 @@ def handle_dialog(res, req):
         if button in option:
             res['response']['text'] = \
                 'Привет. Я шарю. Укажи только город!'
+            weather(req, res)
+
         else:
             res['response']['text'] = \
                 'Привет. Я не шарю'
@@ -130,10 +132,6 @@ def get_first_name(req):
 
 
 def weather(res, req):
-    for entity in req['request']['nlu']["tokens"]:
-        if entity == 'погода':
-            res['response']['text'] = \
-                'Привет. Я шарю в погоде. Укажи только город!'
             city = get_city(req)
             if city is not None:
                 res['response']['text'] = \

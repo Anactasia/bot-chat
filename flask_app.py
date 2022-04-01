@@ -1,7 +1,7 @@
 from flask import Flask, request
 import logging
 import json
-from weather import get_weather
+import random
 import os
 
 app = Flask(__name__)
@@ -12,7 +12,14 @@ logging.basicConfig(level=logging.INFO)
 # а значение — массив, где перечислены id картинок,
 # которые мы записали в прошлом пункте.
 
-option = ['погода']
+cities = {
+    'москва': ['1540737/daa6e420d33102bf6947',
+               '213044/7df73ae4cc715175059e'],
+    'нью-йорк': ['1652229/728d5c86707054d4745f',
+                 '1030494/aca7ed7acefde2606bdc'],
+    'париж': ["1652229/f77136c2364eb90a3ea8",
+              '3450494/aca7ed7acefde22341bdc']
+}
 
 # создаем словарь, где для каждого пользователя
 # мы будем хранить его имя
@@ -63,18 +70,33 @@ def handle_dialog(res, req):
             res['response'][
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
-                          + '. Я - Алиса. Выбери то что хочешь'
-    #         res['response']['buttons'] = [
-    #             {
-    #                 'title': bot,
-    #                 'hide': True
-    #             } for bot in option
-    #         ]
-    # # если мы знакомы с пользователем и он нам что-то написал,
-    # # то это говорит о том, что он уже говорит о городе,
-    # # что хочет увидеть.
-    # else:
-    #     main_button(req, res)
+                          + '. Я - Алиса. Какой город хочешь увидеть?'
+            # получаем варианты buttons из ключей нашего словаря cities
+            res['response']['buttons'] = [
+                {
+                    'title': city.title(),
+                    'hide': True
+                } for city in cities
+            ]
+    # если мы знакомы с пользователем и он нам что-то написал,
+    # то это говорит о том, что он уже говорит о городе,
+    # что хочет увидеть.
+    else:
+        # ищем город в сообщение от пользователя
+        city = get_city(req)
+        # если этот город среди известных нам,
+        # то показываем его (выбираем одну из двух картинок случайно)
+        if city in cities:
+            res['response']['card'] = {}
+            res['response']['card']['type'] = 'BigImage'
+            res['response']['card']['title'] = 'Этот город я знаю.'
+            res['response']['card']['image_id'] = random.choice(cities[city])
+            res['response']['text'] = 'Я угадал!'
+        # если не нашел, то отвечает пользователю
+        # 'Первый раз слышу об этом городе.'
+        else:
+            res['response']['text'] = \
+                'Первый раз слышу об этом городе. Попробуй еще разок!'
 
 
 def get_city(req):
@@ -96,36 +118,6 @@ def get_first_name(req):
             # то возвращаем ее значение.
             # Во всех остальных случаях возвращаем None.
             return entity['value'].get('first_name', None)
-
-
-def weather(req, res):
-    # ищем город в сообщение от пользователя
-    city = get_city(req)
-    if city is not None:
-        rez = get_weather(city)
-        res['response']['text'] = \
-            rez
-
-    # if city in option:
-    #
-    #     res['response']['card'] = {}
-    #     res['response']['card']['type'] = 'BigImage'
-    #     res['response']['card']['title'] = 'Этот город я знаю.'
-    #     res['response']['card']['image_id'] = random.choice(cities[city])
-    #     res['response']['text'] = 'Я угадал!'
-    # # если не нашел, то отвечает пользователю
-    # # 'Первый раз слышу об этом городе.'
-    else:
-        res['response']['text'] = \
-            'Первый раз слышу об этом городе. Попробуй еще разок!'
-
-
-def main_button(req, res):
-    for entity in req['request']['nlu']["tokens"]:
-        # если тип YANDEX.GEO то пытаемся получить город(city),
-        # если нет, то возвращаем None
-        if entity == 'погода':
-            return weather(req, res)
 
 
 if __name__ == '__main__':

@@ -131,7 +131,7 @@ def weather(req, res):
         # get_weather(city)
     else:
         res['response']['text'] = \
-            'Первый раз слышу об этом городе. Попробуй еще разок!'
+            'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
 
 
 def main_button(req, res):

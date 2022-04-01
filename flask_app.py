@@ -86,6 +86,10 @@ def handle_dialog(res, req):
         if button in option:
             res['response']['text'] = \
                 'Привет. Я шарю в погоде. Укажи только город!'
+        else:
+            res['response']['text'] = \
+                'Привет. Я шарю в погоде. Укажи только город!'
+
             # weather(req, res)
 
         # ищем город в сообщение от пользователя

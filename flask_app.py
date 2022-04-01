@@ -82,7 +82,19 @@ def handle_dialog(res, req):
     # то это говорит о том, что он уже говорит о городе,
     # что хочет увидеть.
     else:
-        main_button(req, res)
+        button = main_button(req, res)
+        if button in option:
+            res['response']['text'] = \
+                'Привет. Я шарю в погоде. Укажи только город!'
+            city = get_city(req)
+            if city is not None:
+                res['response']['text'] = \
+                    'Да я знаю такой'
+                # get_weather(city)
+            else:
+                res['response']['text'] = \
+                    'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
+
         # ищем город в сообщение от пользователя
         # city = get_city(req)
         # # если этот город среди известных нам,
@@ -136,9 +148,7 @@ def weather(req, res):
 def main_button(req, res):
     for entity in req['request']['nlu']["tokens"]:
         if entity == 'погода':
-            res['response']['text'] = \
-                'переход'
-            weather(req, res)
+            return entity
         else:
             res['response']['text'] = \
                 'все плохо'

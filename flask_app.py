@@ -3,7 +3,7 @@ from flask import Flask, request
 import logging
 import json
 import random
-
+WEATHER = False
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
@@ -42,6 +42,7 @@ def main():
 
 
 def handle_dialog(res, req):
+    global WEATHER
     user_id = req['session']['user_id']
 
     # если пользователь новый, то просим его представиться.
@@ -86,18 +87,19 @@ def handle_dialog(res, req):
         if button in option:
             res['response']['text'] = \
                 'Привет. Я шарю. Укажи только город!'
-            city = get_city(req)
-            if city is not None:
-                res['response']['text'] = \
-                    'Да я знаю такой'
-                # get_weather(city)
-            else:
-                res['response']['text'] = \
-                    'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
+            WEATHER = True
 
         else:
             res['response']['text'] = \
                 'Привет. Я не шарю'
+        if WEATHER:
+            city = get_city(req)
+            if city is not None:
+                res['response']['text'] = \
+                    'Да я знаю такой'
+            else:
+                res['response']['text'] = \
+                    'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
 
             # weather(req, res)
 

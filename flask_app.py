@@ -1,6 +1,7 @@
 from flask import Flask, request
 import logging
 import json
+import random
 import os
 import weather1
 

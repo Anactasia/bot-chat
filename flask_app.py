@@ -93,7 +93,7 @@ def handle_dialog(res, req):
                 # get_weather(city)
             else:
                 res['response']['text'] = \
-                    'Первый раз слышу об этом городе. Попробуй еще разок!))))))))))'
+                    'Что-то не то'
 
         # ищем город в сообщение от пользователя
         # city = get_city(req)

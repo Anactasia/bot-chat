@@ -64,17 +64,17 @@ def handle_dialog(res, req):
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
                           + '. Я - Алиса. Выбери то что хочешь'
-            res['response']['buttons'] = [
-                {
-                    'title': bot,
-                    'hide': True
-                } for bot in option
-            ]
-    # если мы знакомы с пользователем и он нам что-то написал,
-    # то это говорит о том, что он уже говорит о городе,
-    # что хочет увидеть.
-    else:
-        main_button(req, res)
+    #         res['response']['buttons'] = [
+    #             {
+    #                 'title': bot,
+    #                 'hide': True
+    #             } for bot in option
+    #         ]
+    # # если мы знакомы с пользователем и он нам что-то написал,
+    # # то это говорит о том, что он уже говорит о городе,
+    # # что хочет увидеть.
+    # else:
+    #     main_button(req, res)
 
 
 def get_city(req):

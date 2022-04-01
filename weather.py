@@ -13,7 +13,6 @@ def get_weather(query):
                  params={'q': query, 'type': 'like', 'units': 'metric', 'APPID': API_KEY})
     if response.status_code == 200:
         data = response.json()
-        print(data)
 
         return [data['list'][0]['weather'][0]['description'],
                 data['list'][0]['main']['temp'], data['list'][0]['weather'][0]['icon']]
